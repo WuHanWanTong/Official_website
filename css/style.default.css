@@ -2252,7 +2252,7 @@ fieldset[disabled] .btn-template-primary.active {
     display: inline;
     font-size: 50px;
     line-height: normal;
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
 }
 
 .packages .package .price .period {
@@ -3461,13 +3461,6 @@ fieldset[disabled] .btn-template-primary.active {
 .navbar-brand:hover,
 .navbar-brand:focus {
     text-decoration: none;
-}
-
-@media (min-width: 768px) {
-    .navbar>.container .navbar-brand,
-    .navbar>.container-fluid .navbar-brand {
-        /* margin-left: -15px; */
-    }
 }
 
 .navbar-toggle {
