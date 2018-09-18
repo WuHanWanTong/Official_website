@@ -20,7 +20,7 @@
   <!-- 视频弹窗 -->
   <div id="video-modal">
     <div class="video-modal-content">
-      <video id="more-video" class="video-js" controls preload="auto" width="710" height="400" poster="http://pf8oqlv07.bkt.clouddn.com/poster.jpg">
+      <video id="more-video" class="video-js" controls preload="auto" width="710" height="400" poster="https://i.toydb.cn/1-poster.jpg">
         <source src="https://v.toydb.cn/propaganda.mp4" type='video/mp4'>
         <p class="vjs-no-js">
           To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -30,8 +30,11 @@
     </div>
   </div>
   <header class="header" id="#header">
-    <img class="banner thumbnails" src="https://i.toydb.cn/1-banner_min.jpg" data-img="https://i.toydb.cn/1-banner.png"
-      alt="">
+    <div class="banner-bg" style="background-image: url(https://i.toydb.cn/1-banner_01.png); top: 0"></div>
+    <div class="banner-bg" style="background-image: url(https://i.toydb.cn/1-banner_02.png); top: 192px"></div>
+    <div class="banner-bg" style="background-image: url(https://i.toydb.cn/1-banner_03.jpg); top: 384px"></div>
+    <div class="banner-bg" style="background-image: url(https://i.toydb.cn/1-banner_04.jpg); top: 576px"></div>
+    <div class="banner-bg" style="background-image: url(https://i.toydb.cn/1-banner_05.jpg); bottom:0"></div>
     <div class="container nav clearfix">
       <img class="logo fl" src="https://i.toydb.cn/1-logo.png" alt="">
       <ul class="fr nav-bar">
@@ -138,7 +141,7 @@
             <span class="fl">主流电商优惠直达</span>
           </li>
           <li>
-            <img src="http://pf8oqlv07.bkt.clouddn.com/vip-icon_3.png" alt="" class="fl">
+            <img src="https://i.toydb.cn/1-vip-icon_3.png" alt="" class="fl">
             <span class="fl">保真购买拒绝盗版</span>
           </li>
         </ul>
@@ -158,8 +161,11 @@
     </div>
   </div>
   <footer class="footer" id="app-download">
-    <img class="footer-bg thumbnails" data-img="https://i.toydb.cn/1-footer-bg.png" src="https://i.toydb.cn/1-footer-bg_min.jpg"
-      alt="">
+    <div class="footer-bg" style="background-image: url(https://i.toydb.cn/1-footer-bg_01.png); top:0"></div>
+    <div class="footer-bg" style="background-image: url(https://i.toydb.cn/1-footer-bg_02.jpg); top:185px"></div>
+    <div class="footer-bg" style="background-image: url(https://i.toydb.cn/1-footer-bg_03.jpg); top:370px"></div>
+    <div class="footer-bg" style="background-image: url(https://i.toydb.cn/1-footer-bg_04.jpg); top:555px"></div>
+    <div class="footer-bg" style="background-image: url(https://i.toydb.cn/1-footer-bg_05.jpg); bottom:0"></div>
     <div class="container" style="position: relative; height:100%">
       <div class="footer-content">
         <h3>COOLKIDS</h3>
@@ -169,14 +175,14 @@
         <div class="download-container clearfix">
           <div class="download-item fl">
             <img src="https://i.toydb.cn/1-eqcode.png" alt="">
-            <a href="#" class="download-btn">
+            <a href="javascript:openApp();" class="download-btn">
               <i class="iconfont icon-ai-app"></i>
               <span>Android下载</span>
             </a>
           </div>
           <div class="download-item fl">
             <img src="https://i.toydb.cn/1-eqcode.png" alt="">
-            <a href="#" class="download-btn">
+            <a href="javascript:openApp();" class="download-btn">
               <i class="iconfont icon-pingguo"></i>
               <span>App Store下载</span>
             </a>
@@ -215,6 +221,7 @@
     </div>
   </footer>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="./js/openApp.js"></script>
   <script src="https://unpkg.com/video.js/dist/video.js"></script>
   <script>
     $(function () {

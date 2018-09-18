@@ -55,23 +55,20 @@
 .video-js.vjs-playing .vjs-tech {
     pointer-events: auto;
 }
-html, body {
-  min-width:1040px;
-}
 body {
   height:100%;
 }
 .header {
-  height:960px;
+  height: 960px;
   width: 100%;
   position: relative;
 }
-.banner {
+.banner-bg {
+  width: 100%;
+  height:192px;
+  background-position: center center;
+  background-size: cover;
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
 }
 .thumbnails {
   filter: blur(4px);
@@ -160,6 +157,7 @@ body {
 .download-app-ercode img{
   width:140px;
   height:140px;
+  border-radius: 10px;
 }
 .banner-more {
   padding:0px 20px 0px 20px;
@@ -288,16 +286,16 @@ body .video-container .video-js {
   width:100%;
 }
 .footer{
-  height:924px;
+  height:925px;
   margin-top:70px;
   position: relative;
 }
 .footer-bg {
+  width: 100%;
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  height:185px;
+  background-position: center center;
+  background-size: cover;
 }
 .footer-content h3{
   font-size: 50px;
@@ -320,6 +318,7 @@ body .video-container .video-js {
   display: block;
   width: 140px;
   height: 140px;
+  border-radius: 10px;
 }
 .download-btn {
   width:140px;
