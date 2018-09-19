@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    if (/mobile/i.test(navigator.userAgent)) {
+      window.location = 'http://192.168.2.111:8080/'
+    }
+  </script>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/main.css">
@@ -109,7 +114,8 @@
         <div class="line"></div>
       </div>
       <p class="introduce-text">全面收录全球玩具、品牌、系列、参数、扫码查看，为用户提供全方位参考</p>
-      <img class="introduce-2-img thumbnails" src="https://i.toydb.cn/1-introduce_2_min.jpg" data-img="https://i.toydb.cn/1-introduce-2.png" alt="">
+      <img class="introduce-2-img thumbnails" src="https://i.toydb.cn/1-introduce_2_min.jpg" data-img="https://i.toydb.cn/1-introduce-2.png"
+        alt="">
       <div class="introduce-title">
         <h1>全网最好 “玩” 的视频栏目</h1>
         <div class="line"></div>
@@ -146,7 +152,8 @@
           </li>
         </ul>
       </div>
-      <img class="introduce-3-img thumbnails" src="https://i.toydb.cn/1-introduce_3_min.jpg" data-img="https://i.toydb.cn/1-introduce-3.png" alt="">
+      <img class="introduce-3-img thumbnails" src="https://i.toydb.cn/1-introduce_3_min.jpg" data-img="https://i.toydb.cn/1-introduce-3.png"
+        alt="">
       <div class="introduce-title" id="about">
         <h1>关于我们</h1>
         <div class="line"></div>
@@ -175,14 +182,15 @@
         <div class="download-container clearfix">
           <div class="download-item fl">
             <img src="https://i.toydb.cn/1-eqcode.png" alt="">
-            <a href="javascript:openApp();" class="download-btn">
+            <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.wtkj.toydb" class="download-btn" target="_bank">
               <i class="iconfont icon-ai-app"></i>
               <span>Android下载</span>
             </a>
           </div>
           <div class="download-item fl">
             <img src="https://i.toydb.cn/1-eqcode.png" alt="">
-            <a href="javascript:openApp();" class="download-btn">
+            <a href="https://itunes.apple.com/cn/app/%E9%A1%BD%E7%AB%A5%E6%98%9F%E7%90%83/id1433882394?mt=8" class="download-btn"
+              target="_bank">
               <i class="iconfont icon-pingguo"></i>
               <span>App Store下载</span>
             </a>
@@ -221,13 +229,12 @@
     </div>
   </footer>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="./js/openApp.js"></script>
   <script src="https://unpkg.com/video.js/dist/video.js"></script>
   <script>
     $(function () {
       var thumbImg = $('.thumbnails')  //所有需要懒加载的图片
       for (var i = 0; i < thumbImg.length; i++) {
-        (function(i){
+        (function (i) {
           var imgObject = new Image();
           var currentImg = thumbImg.eq(i);
           var img = currentImg.data('img');
