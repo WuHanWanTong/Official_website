@@ -1,0 +1,273 @@
+.vjs-paused .vjs-big-play-button,
+.vjs-paused.vjs-has-started .vjs-big-play-button {
+    display: block;
+}
+body .video-js .vjs-big-play-button {
+    font-size: 2.5em;
+    line-height: 2.3em;
+    height: 2.5em;
+    width: 2.5em;
+    -webkit-border-radius: 2.5em;
+    -moz-border-radius: 2.5em;
+    border-radius: 2.5em;
+    background-color: #73859f;
+    background-color: rgba(115, 133, 159, .5);
+    border-width: 0;
+    margin-top: -1.25em;
+    margin-left: -1.25em;
+}
+/* 中间的播放箭头 */
+.vjs-big-play-button .vjs-icon-placeholder {
+    font-size: 1.63em;
+}
+/* 加载圆圈 */
+.vjs-loading-spinner {
+    font-size: 2.5em;
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
+    margin-top: -1em;
+    margin-left: -1.5em;
+}
+/* 点击屏幕播放/暂停 */
+.video-js.vjs-playing .vjs-tech {
+    pointer-events: auto;
+}
+.vjs-fluid {
+  padding-top:0;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+p,h1,h2,h3,h4,h5{
+  margin:0;
+}
+.bg {
+  display: block;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url('https://i.toydb.cn/1-m-bg.png');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.btn {
+  color: #fff;
+  font-size: 0.26rem;
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+}
+
+.btn h3 {
+  margin: 0;
+  font-weight: 400;
+}
+
+#download {
+  width: 4rem;
+  height: 0.8rem;
+  background-color: #ffdb6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: #574f9f;
+  font-size: 0.4rem;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 0.2rem;
+}
+
+.logo {
+  width: 3.76rem;
+  height: 1.1rem;
+  display: block;
+  margin: 0 auto;
+  padding-top: 0.5rem;
+}
+
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer p {
+  text-align: center;
+  color: #000;
+  font-size: 0.1rem;
+}
+
+#menu {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#menu li {
+  margin-top: 0.2rem;
+}
+
+#menu .nav-button {
+  display: block;
+  width: 0.3rem;
+  height: 0.3rem;
+  background-color: #8fb6f6;
+  border-radius: 50%;
+}
+
+#menu .active .nav-button {
+  background-color: #fbdb6f;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 0.4rem;
+}
+
+.introduce-title h3 {
+  font-size: 0.36rem;
+  margin-bottom: 0.17rem;
+}
+
+.introduce-title .line {
+  background-color: #8fb6f6;
+  height: 3px;
+  width: 0.60rem;
+  margin: 0 auto;
+}
+
+.introduce-group {
+  width: 100%;
+}
+
+.introduce-top {
+  margin-top: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.introduce-item {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  width: 2rem;
+}
+
+.introduce-icon {
+  width: 0.4rem;
+}
+
+.introduce-item h4 {
+  font-size: 0.24rem;
+  margin-top: 0.12rem;
+}
+
+.introduce-item p {
+  font-size: 0.18rem;
+}
+
+.introduce-banner1 {
+  width: 100%;
+  margin-top: 0.66rem;
+}
+
+.description {
+  width: 4.3rem;
+  text-align: center;
+  font-size: 0.24rem;
+  margin-top: 0.2rem;
+}
+.introduce-banner2 {
+  width:100%;
+  margin-top: 0.36rem;
+}
+.video-container {
+  margin-top:0.34rem;
+  width:80%;
+}
+body .video-container .video-js {
+  width:100%;
+  margin:0 auto;
+  height:auto;
+  -moz-box-shadow:0px 10px 19px #828282; 
+  -webkit-box-shadow:0px 10px 19px #828282; 
+  box-shadow:0px 10px 19px #828282;
+}
+.video-toggle {
+  padding-left: 0;
+  width: 100%;
+  margin-top: 0.28rem;
+  display: flex;
+  justify-content: space-around;
+  flex: row;
+}
+.vjs-poster {
+  background-size: cover !important;
+}
+.video-toggle li {
+  list-style: none;
+}
+.video-toggle li a {
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.2rem;
+  height: 0.3rem;
+  background-color: #fff;
+  text-decoration: none;
+  border:1px solid #8fb6f6;
+  font-size: 0.16rem;
+}
+.video-toggle .video-toggle-active {
+  background-color: #8fb6f6;
+  color: #fff;
+}
+.vip-group {
+  text-align: center;
+  margin: 0 auto;
+  padding-left: 0;
+}
+.vip-group li {
+  margin-top:0.2rem;
+  display: flex;
+  justify-content: center;
+}
+.vip-group li img{
+  width:0.35rem;
+  height:0.35rem;
+  vertical-align: middle;
+}
+.vip-group li span{
+  font-size: 0.24rem;
+  margin-left: 0.2rem;
+}
+.introduce-banner3 {
+  width:100%;
+  margin-top:0.2rem;
+}

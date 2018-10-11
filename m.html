@@ -7,186 +7,304 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="apple-touch-fullscreen" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <link rel="shortcut icon" href="https://i.toydb.cn/1-favicon.ico" type="image/x-icon" />
-  <link rel="apple-touch-icon" href="https://i.toydb.cn/1-favicon.ico" />
-  <link rel="apple-touch-icon-precomposed" href="https://i.toydb.cn/1-favicon.ico" />
-  <title>顽童星球</title>
   <script>
     if (!/mobile/i.test(navigator.userAgent)) {
       window.location = 'https://wtplanet.com/index.html'
     }
+  (function(win, lib) {
+      var doc = win.document;
+      var docEl = doc.documentElement;
+      var metaEl = doc.querySelector('meta[name="viewport"]');
+      var flexibleEl = doc.querySelector('meta[name="flexible"]');
+      var dpr = 0;
+      var scale = 0;
+      var tid;
+      var flexible = lib.flexible || (lib.flexible = {});
+
+      if (metaEl) {
+          var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+          if (match) {
+              scale = parseFloat(match[1]);
+              dpr = parseInt(1 / scale);
+          }
+      } else if (flexibleEl) {
+          var content = flexibleEl.getAttribute('content');
+          if (content) {
+              var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+              var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+              if (initialDpr) {
+                  dpr = parseFloat(initialDpr[1]);
+                  scale = parseFloat((1 / dpr).toFixed(2));
+              }
+              if (maximumDpr) {
+                  dpr = parseFloat(maximumDpr[1]);
+                  scale = parseFloat((1 / dpr).toFixed(2));
+              }
+          }
+      }
+
+      if (!dpr && !scale) {
+          var isAndroid = win.navigator.appVersion.match(/android/gi);
+          var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+          var devicePixelRatio = win.devicePixelRatio;
+          if (isIPhone) {
+              // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+              if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                  dpr = 3;
+              } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+                  dpr = 2;
+              } else {
+                  dpr = 1;
+              }
+          } else {
+              // 其他设备下，仍旧使用1倍的方案
+              dpr = 1;
+          }
+          scale = 1 / dpr;
+      }
+
+      docEl.setAttribute('data-dpr', dpr);
+      if (!metaEl) {
+          metaEl = doc.createElement('meta');
+          metaEl.setAttribute('name', 'viewport');
+          metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+          if (docEl.firstElementChild) {
+              docEl.firstElementChild.appendChild(metaEl);
+          } else {
+              var wrap = doc.createElement('div');
+              wrap.appendChild(metaEl);
+              doc.write(wrap.innerHTML);
+          }
+      }
+
+      function refreshRem() {
+          var width = docEl.getBoundingClientRect().width;
+          // 适配平板
+          if (width / dpr > 750) {
+              width = 750 * dpr;
+          }
+          var rem = 100 * (width / 750);
+          docEl.style.fontSize = rem + 'px';
+          flexible.rem = win.rem = rem;
+      }
+
+      win.addEventListener('resize', function() {
+          clearTimeout(tid);
+          tid = setTimeout(refreshRem, 300);
+      }, false);
+      win.addEventListener('pageshow', function(e) {
+          if (e.persisted) {
+              clearTimeout(tid);
+              tid = setTimeout(refreshRem, 300);
+          }
+      }, false);
+
+      if (doc.readyState === 'complete') {
+          doc.body.style.fontSize = 12 * dpr + 'px';
+      } else {
+          doc.addEventListener('DOMContentLoaded', function(e) {
+              doc.body.style.fontSize = 12 * dpr + 'px';
+          }, false);
+      }
+      refreshRem();
+      flexible.dpr = win.dpr = dpr;
+      flexible.refreshRem = refreshRem;
+      flexible.rem2px = function(d) {
+          var val = parseFloat(d) * this.rem;
+          if (typeof d === 'string' && d.match(/rem$/)) {
+              val += 'px';
+          }
+          return val;
+      }
+      flexible.px2rem = function(d) {
+          var val = parseFloat(d) / this.rem;
+          if (typeof d === 'string' && d.match(/px$/)) {
+              val += 'rem';
+          }
+          return val;
+      }
+
+  })(window, window['lib'] || (window['lib'] = {}));
   </script>
-  <style>
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
-    }
-
-    .bg {
-      display: block;
-      z-index: 0;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background-image: url('https://i.toydb.cn/1-m-bg.png');
-      background-position: center center;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-
-    .btn {
-      color: #fff;
-      font-size: 14px;
-      text-align: center;
-      vertical-align: middle;
-      position: absolute;
-      bottom: 20%;
-      left: 0;
-      right: 0;
-    }
-
-    .btn h3 {
-      margin: 0;
-      font-weight: 400;
-    }
-
-    .download {
-      width: 200px;
-      height: 40px;
-      background-color: #ffdb6f;
-      display: block;
-      cursor: pointer;
-      margin: 0 auto;
-      color: #574f9f;
-      font-size: 20px;
-      text-align: center;
-      line-height: 40px;
-      text-decoration: none;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-
-    .logo {
-      width: 180px;
-      display: block;
-      margin: 0 auto;
-      padding-top: 25px;
-    }
-
-    .footer {
-      position: absolute;
-      width: 100%;
-      bottom: 0;
-    }
-
-    .footer p {
-      text-align: center;
-      color: #fff;
-      font-size: 10px;
-    }
-  </style>
+  <link rel="shortcut icon" href="https://i.toydb.cn/1-favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="https://i.toydb.cn/1-favicon.ico" />
+  <link rel="apple-touch-icon-precomposed" href="https://i.toydb.cn/1-favicon.ico" />
+  <link rel="stylesheet" href="./css/m-main.css">
+  <link rel="stylesheet" href="./css/fullpage.css">
+  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+  <title>顽童星球</title>
 </head>
 
 <body>
-  <div class="bg">
-    <div>
-      <img class="logo" src="https://i.toydb.cn/1-m-logo.png" alt="">
+  <div id="fullpage">
+    <div class="bg section">
+      <div>
+        <img class="logo" src="https://i.toydb.cn/1-m-logo.png" alt="">
+      </div>
+      <div class="btn">
+        <h3 class="title">找最酷的玩具，下载顽童星球APP</h3>
+        <a id="download" href="javascript:;">立即下载</a>
+      </div>
     </div>
-    <div class="btn">
-      <h3 class="title">找最酷的玩具，下载顽童星球APP</h3>
-      <a class="download" href="javascript:openApp();">立即下载</a>
+    <div class="section">
+      <div class="container">
+        <div class="introduce-title">
+          <h3>天下玩具&nbsp;&nbsp;一手掌握</h3>
+          <div class="line"></div>
+        </div>
+        <div class="introduce-group">
+          <div class="introduce-top">
+            <div class="introduce-item">
+              <img src="https://i.toydb.cn/1-introduce-icon_1.png" alt="" class="introduce-icon">
+              <h4>玩具清单</h4>
+              <p>按场景为用户推荐最合适的玩具</p>
+            </div>
+            <div class="introduce-item">
+              <img src="https://i.toydb.cn/1-introduce-icon_2.png" alt="" class="introduce-icon">
+              <h4>热门资讯</h4>
+              <p>汇聚全球最新玩具资讯，让用户更了解品牌、产品</p>
+            </div>
+          </div>
+          <div class="introduce-top">
+            <div class="introduce-item">
+              <img src="https://i.toydb.cn/1-introduce-icon_3.png" alt="" class="introduce-icon">
+              <h4>今日好玩</h4>
+              <p>最新的玩具前瞻、上市发售新闻精彩不容错过</p>
+            </div>
+            <div class="introduce-item">
+              <img src="https://i.toydb.cn/1-introduce-icon_4.png" alt="" class="introduce-icon">
+              <h4>玩具专题</h4>
+              <p>丰富多彩的专题内容，让用户玩的更有品质</p>
+            </div>
+            <div class="introduce-item">
+              <img src="https://i.toydb.cn/1-introduce-icon_5.png" alt="" class="introduce-icon">
+              <h4>玩家互动</h4>
+              <p>玩友圈达人共享，边玩边交天下好友</p>
+            </div>
+          </div>
+        </div>
+        <img src="https://i.toydb.cn/m-introduce-1.png" class="introduce-banner1" alt="">
+      </div>
     </div>
-    <footer class="footer">
-      <p>武汉顽童科技有限公司</p>
-    </footer>
+    <div class="section">
+      <div class="container">
+        <div class="introduce-title">
+          <h3>最大最全玩具数据库，一扫即达</h3>
+          <div class="line"></div>
+        </div>
+        <p class="description">全面收录全球玩具、品牌、系列、参数、扫码查看，为用户提供全方位参考</p>
+        <img src="https://i.toydb.cn/m-introduce-2.png" class="introduce-banner2" alt="">
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="introduce-title">
+          <h3>全网最好 “玩” 的视频栏目</h3>
+          <div class="line"></div>
+        </div>
+        <p class="description">玩具新闻、开箱测评、教程指南、创意视频、达人原创、用户分享、让玩更精彩！</p>
+        <div class="video-container">
+          <video class="video-js  vjs-big-play-centered  vjs-big-play-centered vjs-fluid" id="video" poster="https://i.toydb.cn/m-video-post.png"
+            controls="true" playsinline>
+            <source src="https://v.toydb.cn/6eN2g5glG9oj_rHZBbZVSmjvGnw=/ltQlhQcA6vXBMQHygDszw3D8a4Wf" type="video/mp4">
+            您的浏览器不支持
+          </video>
+          <ul class="video-toggle">
+            <li><a href="javascript:;" id="toy-test" class="video-toggle-active">玩具测评</a></li>
+            <li><a href="javascript:;" id="people-show">达人秀</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="introduce-title">
+          <h3>顽童星球专属VIP福利</h3>
+          <div class="line"></div>
+        </div>
+        <ul  class="vip-group">
+          <li>
+            <img src="https://i.toydb.cn/1-vip-icon_1.png" alt="">
+            <span>品牌一手玩具福利</span>
+          </li>
+          <li>
+            <img src="https://i.toydb.cn/1-vip-icon_2.png" alt="">
+            <span>主流电商优惠直达</span>
+          </li>
+          <li>
+            <img src="https://i.toydb.cn/1-vip-icon_3.png" alt="">
+            <span>保真购买拒绝盗版</span>
+          </li>
+        </ul>
+        <img src="https://i.toydb.cn/m-introduce-3.png" alt="" class="introduce-banner3">
+        <footer class="footer">
+          <p>武汉顽童科技有限公司</p>
+        </footer>
+      </div>
+    </div>
   </div>
-  <script>
-    var browser = {
-      versions: function () {
-        var u = navigator.userAgent,
-          app = navigator.appVersion;
-        return {
-          trident: u.indexOf('Trident') > -1,
-          presto: u.indexOf('Presto') > -1,
-          webKit: u.indexOf('AppleWebKit') > -1,
-          gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
-          mobile: !!u.match(/AppleWebKit.*Mobile.*/),
-          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
-          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
-          iPhone: u.indexOf('iPhone') > -1,
-          iPad: u.indexOf('iPad') > -1,
-          webApp: u.indexOf('Safari') == -1,
-          souyue: u.indexOf('souyue') > -1,
-          superapp: u.indexOf('superapp') > -1,
-          weixin: u.toLowerCase().indexOf('micromessenger') > -1,
-          Safari: u.indexOf('Safari') > -1,
-          WeixinBrowser: (/micromessenger/.test(u)) ? true : false,
-          QQBrowser: (u.match(/QQ/i) == "qq") ? true : false
-        };
-      }(),
-      language: (navigator.browserLanguage || navigator.language).toLowerCase(),
-      link: {
-        iosShop: 'https://itunes.apple.com/cn/app/%E9%A1%BD%E7%AB%A5%E6%98%9F%E7%90%83/id1433882394?mt=8',
-        yingyongbao: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.wtkj.toydb'
+  <ul id="menu">
+    <li data-menuanchor='download-app'>
+      <a href="#download-app" class="nav-button"></a>
+    </li>
+    <li data-menuanchor='summary-introduce' class="active">
+      <a href="#summary-introduce" class="nav-button"></a>
+    </li>
+    <li data-menuanchor='data-introduce'>
+      <a href="#data-introduce" class="nav-button"></a>
+    </li>
+    <li data-menuanchor='video-introduce'>
+      <a href="#video-introduce" class="nav-button"></a>
+    </li>
+    <li data-menuanchor='vip-introduce'>
+      <a href="#vip-introduce" class="nav-button"></a>
+    </li>
+  </ul>
+  <script src="./js/openApp.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/video.js/dist/video.js"></script>
+  <script src="./js/fullpage.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#fullpage').fullpage({
+        anchors: ['download-app', 'summary-introduce', 'data-introduce', 'video-introduce', 'vip-introduce'],
+        menu: '#menu',
+        licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE'
+      });
+      var player = videojs('video')
+      var Dom = {
+        toyTest: $('#toy-test'),
+        peopleShow: $('#people-show'),
+        video: $('#video'),
+        videoSource: $('#video source'),
       }
-    };
-    var loadTimer = null;
-    function GetQueryString(name) {
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      if (r != null) return unescape(r[2]); return null;
-    }
-    function getType() {
-      var pathName = window.location.pathname.split('/')
-      return pathName[pathName.length - 1]
-    }
-    function openApp() {
-      var schame = ""
-      var thatid = GetQueryString('id')
-      var type = getType()
-      schame = "toydb://www.toydb.cn?type=" + type + "&id=" + thatid + ""
-
-      if (browser.versions.ios) {
-        window.location.href = schame;
-        loadTimer = setTimeout(function () {
-          if (document.hidden || document.webkitHidden) {
-            return;
-          }
-          window.location.href = browser.link.iosShop;
-        }, 2000);
-      } else if (browser.versions.android) {
-        if (browser.versions.WeixinBrowser || browser.versions.QQBrowser) {
-          window.location.href = browser.link.yingyongbao
+      Dom.toyTest.click(function (e) {
+        e.preventDefault()
+        if (Dom.toyTest.hasClass('video-toggle-active')) {
           return
+        } else {
+          Dom.peopleShow.removeClass('video-toggle-active')
+          Dom.toyTest.addClass('video-toggle-active')
+          player.pause()
+          $('#video_html5_api').prop('src', 'https://v.toydb.cn/6eN2g5glG9oj_rHZBbZVSmjvGnw=/ltQlhQcA6vXBMQHygDszw3D8a4Wf')
+          player.load()
+          player.play()
         }
-        window.location.href = schame; // android对应的schame URL
-        var start = Date.now();
-        loadTimer = setTimeout(function () {
-          if (document.hidden || document.webkitHidden) {
-            return;
-          } else {
-            window.location.href = browser.link.yingyongbao;
-          }
-        }, 2000);
-      }
-    }
-    // 当页面在后台运行时清空定时器防止页面跳转到下载页
-    var visibilitychange = function () {
-      var tag = document.hidden || document.webkitHidden;
-      if (tag && loadTimer) {
-        clearTimeout(loadTimer);
-      }
-    }
-    document.addEventListener('visibilitychange', visibilitychange, false);
-    document.addEventListener("webkitvisibilitychange", visibilitychange, false);
-    window.addEventListener("pagehide", function () {
-      loadTimer && clearTimeout(loadTimer);
-    }, false);
+      })
+      Dom.peopleShow.click(function (e) {
+        e.preventDefault()
+        if (Dom.peopleShow.hasClass('video-toggle-active')) {
+          return
+        } else {
+          Dom.toyTest.removeClass('video-toggle-active')
+          Dom.peopleShow.addClass('video-toggle-active')
+          player.pause()
+          $('#video_html5_api').prop('src', 'https://v.toydb.cn/6eN2g5glG9oj_rHZBbZVSmjvGnw=/llanIKXLn7MVLqVXT9ihiSQbp5gp')
+          player.load()
+          player.play()
+        }
+      });
+    });
   </script>
 </body>
 
